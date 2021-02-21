@@ -21,7 +21,7 @@ int maxSubSequenceSum(const int a[], int N)
 	return maxSum;
 }
 
-void main()
+int main()
 {
 	printf("test\n");
 	int input;
@@ -31,7 +31,9 @@ void main()
 	if(input > (sizeof(array) / sizeof(array[0])))
 	{
 		printf("input %d is larger than the # of elements %d!\n", input, (int)(sizeof(array) / sizeof(array[0])));
-		return;
+		return 1;
 	}
 	printf("%d\n", maxSubSequenceSum(array, input));
+
+	return 0;
 }
