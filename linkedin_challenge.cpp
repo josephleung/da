@@ -33,13 +33,14 @@ Bonus: Output how many rounds should be completed before the deck is adequately 
  */
 
 /// number of piles pattern
-constexpr std::array<int, 3> pile_pattern = {{ 3, 4, 5 }};
+constexpr std::array<int, 3> pile_pattern = {{3, 4, 5}};
 
 /// Checks if the deck/list is in the original order
 /// @param begin start iterator
 /// @param end end iterator
 template <typename It>
-bool check_order(It begin, It end) {
+bool check_order(It begin, It end)
+{
     return std::is_sorted(begin, end);
 }
 
@@ -47,8 +48,10 @@ bool check_order(It begin, It end) {
 /// @param begin start iterator
 /// @param end end iterator
 template <typename It>
-void pretty_print(It begin, It end) {
-    for ( /*  */ ;begin != end; ++begin) {
+void pretty_print(It begin, It end)
+{
+    for (/*  */; begin != end; ++begin)
+    {
         // not going to worry about the trailing ", " here
         std::cout << *begin << ", ";
     }
@@ -59,12 +62,14 @@ void pretty_print(It begin, It end) {
 /// takes the piles and consolidates them into one deck or pile
 /// @param piles a reference to the piles of cards
 /// @param num_piles the number of piles in @param piles
-std::list<int> consolidate(std::unordered_map<int, std::list<int>> &piles, int num_piles) {
+std::list<int> consolidate(std::unordered_map<int, std::list<int>> &piles, int num_piles)
+{
     // consolidate the piles. we can splice the lists
     // to save some time with mem move and allocations
     // and cause the challenge asked us to not use an array
     std::list<int> deck;
-    for (int pile = 0; pile < num_piles; ++pile) {
+    for (int pile = 0; pile < num_piles; ++pile)
+    {
         deck.splice(deck.end(), piles[pile]);
     }
 
@@ -74,14 +79,16 @@ std::list<int> consolidate(std::unordered_map<int, std::list<int>> &piles, int n
 /// distrubutes the deck into @param num_piles piles
 /// @param deck the deck of cards to distribute
 /// @param num_piles the number of piles in @param piles
-std::unordered_map<int, std::list<int>> distribute(std::list<int> &deck, int num_piles) {
+std::unordered_map<int, std::list<int>> distribute(std::list<int> &deck, int num_piles)
+{
     // redistribute the cards. this is a bid different since
     // we aren't making cards anymore but using the consoldated
     // deck from the first iteration.
     std::unordered_map<int, std::list<int>> piles;
     int pile = 0;
 
-    while (!deck.empty()) {
+    while (!deck.empty())
+    {
         int card = deck.front();
         deck.pop_front();
 
@@ -92,13 +99,13 @@ std::unordered_map<int, std::list<int>> distribute(std::list<int> &deck, int num
     return piles;
 }
 
-
-int main(int argv, char **argc) {
-    // since this ia a challenge, not going any 
+int main(int argv, char **argc)
+{
+    // since this ia a challenge, not going any
     // input cleaning or error checking
     int num_cards = atoi(argc[1]);
 
-    // the key is the pile number and the value is 
+    // the key is the pile number and the value is
     // a list of card in that pile. Not using an array
     // cause challenge asked not to and also so we can
     // splice lists together when picking them up from
@@ -113,21 +120,25 @@ int main(int argv, char **argc) {
 
     // populate with cards, we could do this on the fly during
     // our first distribution, but this cuts down on code redundancy
-    for (int i = 0; i < num_cards; ++i){ deck.push_back(i); }
+    for (int i = 0; i < num_cards; ++i)
+    {
+        deck.push_back(i);
+    }
 
     bool original_order = false; // is deck in original order
-    int num_distributed = 0; // number of times cards have been delt
-    int pile_pattern_idx = 0; // index of the pile count pattern
+    int num_distributed = 0;     // number of times cards have been delt
+    int pile_pattern_idx = 0;    // index of the pile count pattern
 
-    while (!original_order) {
+    while (!original_order)
+    {
         // pretty print for debugging
         pretty_print(deck.begin(), deck.end());
-        
+
         piles = distribute(deck, pile_pattern[pile_pattern_idx]);
         deck = consolidate(piles, pile_pattern[pile_pattern_idx]);
 
         original_order = check_order(deck.begin(), deck.end());
-        
+
         ++num_distributed;
         pile_pattern_idx = (pile_pattern_idx + 1) % pile_pattern.size(); // go to next pile count
     }
