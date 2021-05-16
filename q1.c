@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define DBGPRT 1
+#define DBGPRT 0
 
 /**
 * this section contains 
@@ -117,6 +117,27 @@ int pop(struct card_node **head)
 }
 
 /**
+ * reverse() - reverse nodes from list
+ * @head: head of the input list
+ *
+ * Return: none
+ */
+void reverse(struct card_node **head)
+{
+    struct card_node *current, *prev, *next;
+    current = *head;
+    prev = NULL;
+    while (current != NULL)
+    {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    *head = prev;
+}
+
+/**
  * dump() - print all nodes in the list, for debug use
  * @head: head of the input list
  *
@@ -188,10 +209,24 @@ int deal(struct card_node **deck, unsigned int num_of_piles)
  */
 int combine(struct card_node **deck, unsigned int num_of_piles)
 {
+    unsigned int card_data = 0;
+    struct card_node *temp_node;
+    int i;
+
+    for (i = 0; i < num_of_piles; i++)
+    {
+        while (!is_empty(piles[i]))
+        {
+            card_data = pop(&piles[i]);
+            push(deck, card_data);
+        }
+    }
+    reverse(deck);
 }
 
 int main()
 {
+    unsigned int round_num = 0;
     int num_of_piles = 3;
     int i = 0;
 
@@ -215,21 +250,38 @@ int main()
     printf("is_in_order: %d\n", is_in_order(deck));
 #endif
 
-    deal(&deck, num_of_piles);
-
-
-#if DBGPRT
-    for (i = 0; i < num_of_piles; i++)
+    do
     {
-        printf("dump pile#: %d: ", i);
-        dump(piles[i]);
-    }
-    printf("\n");
+        deal(&deck, num_of_piles);
+#if DBGPRT
+        for (i = 0; i < num_of_piles; i++)
+        {
+            printf("dump pile#: %d: ", i);
+            dump(piles[i]);
+        }
+        printf("\n");
 
-    printf("deck is_empty in main: %d\n", is_empty(deck));
-    printf("dump deck again: ");
-    dump(deck);
+        printf("deck is_empty in main: %d\n", is_empty(deck));
+        printf("dump deck again: ");
+        dump(deck);
 #endif
+
+        combine(&deck, num_of_piles);
+#if DBGPRT
+        for (i = 0; i < num_of_piles; i++)
+        {
+            printf("dump pile#: %d: ", i);
+            dump(piles[i]);
+        }
+        printf("\n");
+
+        printf("deck is_empty in main: %d\n", is_empty(deck));
+        printf("dump deck again: ");
+        dump(deck);
+#endif
+        round_num++;
+    } while (!is_in_order(deck));
+
     /*
     for (i = 0; i < 10; i++)
     {
@@ -243,4 +295,5 @@ int main()
         printf("%d is popped\n", pop(&head));
     }
     */
+   printf("%d rounds\n", round_num);
 }
