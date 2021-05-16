@@ -3,22 +3,19 @@
 #define DBGPRT_LVL 1 //0 = no debug print. 1 = deck print only, 2 = 1 + pile print each time
 
 /**
- * this section contains 
- * the params we can tune
+* this section contains 
+* the params we can tune
 */
-#define MAX_CARD_COUNT 20 //max allowed card count for our test
+#define MAX_CARD_COUNT 5
 #define MAX_PILES_PER_ROUND 5
 unsigned int num_of_piles_per_round[3] = {3, 4, 5};
 
 #define MAX_PILE_NUM_IDX (sizeof(num_of_piles_per_round) / sizeof(num_of_piles_per_round[0]) - 1)
 
 /**
- * this section contains 
- * the functions for linked list as infrastructure
- * since array is not allowed so linked list is a good choice
- * and the card deal combine process is a kind of stack: we put new card on top of old card, so we use stack
+* this section contains 
+* the functions for linked list as infrastructure
 */
-
 struct card_node
 {
     unsigned int data;
@@ -51,10 +48,10 @@ int is_empty(struct card_node *head)
 }
 
 /**
- * is_in_order() - tell whether if a list is in original order
+ * is_in_order() - tell whether if a list is empty
  * @head: head of the input list - deck
  *
- * Return: 0 not in order; 1 in order.
+ * Return: 0 not in order; -1 on failure.
  */
 int is_in_order(struct card_node *head)
 {
@@ -141,7 +138,7 @@ void reverse(struct card_node **head)
 }
 
 /**
- * dump() - print all nodes in the list
+ * dump() - print all nodes in the list, for debug use
  * @head: head of the input list
  *
  * Return: none
@@ -157,9 +154,9 @@ void dump(struct card_node *head)
 }
 
 /**
- * this section contains 
- * the functions to simulate deal and combile
- */
+* this section contains 
+* the functions to simulate deal and combile
+*/
 
 /**
  * deal() - simulate the deal action
@@ -224,29 +221,17 @@ int combine(struct card_node **deck, unsigned int num_of_piles)
             push(deck, card_data);
         }
     }
-    reverse(deck); //since we are using stack so the order need to be reversed
+    reverse(deck);
 }
 
-int main(int argc, char *argv[])
+int main()
 {
-    unsigned int i = 0;
     unsigned int round_num = 0;
-    unsigned int num_of_piles = 0;
-    unsigned int card_num = atoi(argv[1]);
-
-    if (card_num <= 0)
-    {
-        printf("invalid input. Please input a number in range of 1~%d\n", MAX_CARD_COUNT);
-        return -1;
-    }
-    else if (card_num > MAX_CARD_COUNT)
-    {
-        printf("invalid input. \ninput card number = %d,  exceeds max allowed = %d \n", card_num, MAX_CARD_COUNT);
-        return -1;
-    }
+    int num_of_piles = 0;
+    int i = 0;
 
     //create our initial deck, card number is decending
-    for (i = 1; i <= card_num; i++)
+    for (i = 1; i <= MAX_CARD_COUNT; i++)
     {
         push(&deck, i);
     }
@@ -257,9 +242,18 @@ int main(int argc, char *argv[])
     printf("\n");
 #endif
 
+#if 0
+    printf("is_in_order: %d\n", is_in_order(deck));
+    push(&deck, 9);
+    dump(deck);
+    printf("\n");
+    printf("is_in_order: %d\n", is_in_order(deck));
+#endif
+
     do
     {
-        num_of_piles = num_of_piles_per_round[round_num % (sizeof(num_of_piles_per_round) / sizeof(num_of_piles_per_round[0]))];
+        num_of_piles =
+            num_of_piles_per_round[round_num % (sizeof(num_of_piles_per_round) / sizeof(num_of_piles_per_round[0]))];
 
         //the deal action
         deal(&deck, num_of_piles);
@@ -270,6 +264,10 @@ int main(int argc, char *argv[])
             dump(piles[i]);
         }
         printf("\n");
+
+        printf("deck is_empty in main: %d\n", is_empty(deck));
+        printf("dump deck again: ");
+        dump(deck);
 #endif
 
         //the combine action
@@ -281,23 +279,27 @@ int main(int argc, char *argv[])
             dump(piles[i]);
         }
         printf("\n");
-#endif
-#if DBGPRT_LVL >= 1
-        //printf("deck is_empty in main: %d\n", is_empty(deck));
-        printf("dump deck for round %2d:   ", round_num + 1);
+
+        printf("deck is_empty in main: %d\n", is_empty(deck));
+        printf("dump deck again: ");
         dump(deck);
 #endif
 
         round_num++;
     } while (!is_in_order(deck));
 
-    printf("\nIt takes %d rounds to put deck back in original order. \n", round_num);
-}
+    /*
+    for (i = 0; i < 10; i++)
+    {
+        push(&head, i);
+    }
 
-/**
- * bonus question answer:
- * I don't know what kind of casual card game our friend want to play.
- * But I set the card number to different values then dump the deck for each round by setting
- * DBGPRT_LVL to 1
- * Then I watched the pattern and noticed that for some card numbers (4, 8, 9, 10, 12,  ...) 
-*/
+    dump(head);
+
+    for (i = 0; i < 10; i++)
+    {
+        printf("%d is popped\n", pop(&head));
+    }
+    */
+    printf("%d rounds\n", round_num);
+}
