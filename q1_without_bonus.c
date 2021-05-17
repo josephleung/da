@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
-
 #define DBGPRT_LVL 1 //0 = no debug print. 1 = deck print only, 2 = 1 + pile print each time
 
 /**
@@ -229,46 +227,12 @@ int combine(struct card_node **deck, unsigned int num_of_piles)
     reverse(deck);
 }
 
-/**
- * calc_entrophy_index() - calculate the entrophy index of the deck - randomness of the deck
- * the algorithm just compare each pair of data from head to tail and see the probability in each pair that the first data is larger than the second data
- * if the deck is random enough, we should see a number of 50%
- * in other words, more random a deck, the return value is closer to 50%
- * @head: head of the input list of the deck
- *
- * Return: entrophy index as float, closer to 50% the better
- */
-float calc_entrophy_index(struct card_node *head)
-{
-    float entropy_index = 0;
-    unsigned int total_num = 0;
-    unsigned int first_is_larger_num = 0;
-    while (head && head->next)
-    {
-        if (head->data > head->next->data)
-            first_is_larger_num++;
-        head = head->next;
-        total_num++;
-    }
-
-    entropy_index = (float)first_is_larger_num / total_num;
-
-#if DBGPRT_LVL == 1
-    printf("first_is_larger_num: %d, total_num: %d, index:%f\n", first_is_larger_num, total_num, entropy_index);
-#endif
-
-    return entropy_index;
-}
-
 int main(int argc, char *argv[])
 {
     unsigned int i = 0;
     unsigned int round_num = 0;
     unsigned int num_of_piles = 0;
     unsigned int card_num = atoi(argv[1]);
-    float current_entropy_index = 1;            //this is used for bonus part, it records the "randomness" of the deck.
-    float best_entrophy_index = 1;              //we set it to 1 which is the worse index we can get, it means not random at all
-    unsigned int best_entrophy_index_round = 0; //record the round info of the best entrophy index
 
     if (card_num <= 0)
     {
@@ -324,29 +288,16 @@ int main(int argc, char *argv[])
         dump(deck);
 #endif
 
-        current_entropy_index = calc_entrophy_index(deck); //calculate our bonus part entrophy index
-        if (fabs(current_entropy_index - 0.5) < fabs(best_entrophy_index - 0.5))
-        {
-            best_entrophy_index = current_entropy_index;
-            best_entrophy_index_round = round_num + 1;
-            printf("index: %f, best: %f", fabs(current_entropy_index - 0.5), best_entrophy_index);
-            printf(" updated index \n\n");
-        }
-
         round_num++;
     } while (!is_in_order(deck));
 
     printf("\nIt takes %d rounds to put deck back in original order. \n", round_num);
-    printf("First most shuffled deck from round: %d \n", best_entrophy_index_round);
 }
 
 /**
- * bonus question comment: please see comment of function
- * float calc_entrophy_index(struct card_node *head)
+ * bonus question answer:
  * I don't know what kind of casual card game our friend want to play.
- * But I guess a good start is tell whether if the entrophy is good enough.
- * The way I do it is:
- * the algorithm just compare each pair of data from head to tail and see the probability in each pair that the first data is larger than the second data
- * if the deck is random enough, we should see a number of 50%
- * in other words, more random a deck, the return value is closer to 50%
+ * But I set the card number to different values then dump the deck for each round by setting
+ * DBGPRT_LVL to 1
+ * Then I watched the pattern and noticed that for some card numbers (4, 8, 9, 10, 12,  ...) 
 */
