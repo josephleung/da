@@ -224,7 +224,7 @@ int combine(struct card_node **deck, unsigned int num_of_piles)
             push(deck, card_data);
         }
     }
-    reverse(deck); //since we are using stack so the order need to be reversed
+    reverse(deck);
 }
 
 int main(int argc, char *argv[])
