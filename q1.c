@@ -45,7 +45,7 @@ struct card_node *new_card(unsigned int data)
  * is_empty() - tell whether if a list is empty
  * @head: head of the input list
  *
- * Return: 0 on success; -1 on failure.
+ * Return: 1 empty, 0 not empty
  */
 int is_empty(struct card_node *head)
 {
@@ -107,7 +107,7 @@ int push(struct card_node **head, int data)
  * pop() - pop a node from list
  * @head: head of the input list
  *
- * Return: data in popped node
+ * Return: data in popped node, -1 if fail
  */
 int pop(struct card_node **head)
 {
@@ -243,6 +243,7 @@ float calc_entrophy_index(struct card_node *head)
     float entropy_index = 0;
     unsigned int total_num = 0;
     unsigned int first_is_larger_num = 0;
+
     while (head && head->next)
     {
         if (head->data > head->next->data)
@@ -250,7 +251,6 @@ float calc_entrophy_index(struct card_node *head)
         head = head->next;
         total_num++;
     }
-
     entropy_index = (float)first_is_larger_num / total_num;
 
 #if DBGPRT_LVL == 1
@@ -324,6 +324,7 @@ int main(int argc, char *argv[])
         dump(deck);
 #endif
 
+        //this part calculate the entrophy index which helps to answer the bonus question
         current_entropy_index = calc_entrophy_index(deck); //calculate our bonus part entrophy index
         if (fabs(current_entropy_index - 0.5) < fabs(best_entrophy_index - 0.5))
         {
