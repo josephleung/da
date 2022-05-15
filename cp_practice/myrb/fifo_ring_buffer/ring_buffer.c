@@ -2,8 +2,10 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define BUFF_CAPACITY 3
+#define BUFF_CAPACITY 10
 #define BUFF_TOKENSIZE 1
+
+static unsigned char buff_space[BUFF_CAPACITY];
 
 typedef struct buffer_struct
 {
@@ -38,19 +40,21 @@ int buffer_read(buffer_struct_t *buffer, void *data)
 {
     if (buffer->population == 0)
     {
-        printf("underflow\n");
+        printf("underflow during read\n");
         return -1;
     }
 
-    if (buffer->write_pointer == buffer->buffer_start)
+    memcpy(data, buffer->read_pointer, buffer->token_size);
+    *(char *)buffer->read_pointer = 0;
+
+    if (buffer->read_pointer == buffer->buffer_end)
     {
-        buffer->write_pointer = buffer->buffer_end;
+        buffer->read_pointer = buffer->buffer_start;
     }
     else
     {
-        buffer->write_pointer = buffer->write_pointer - buffer->token_size;
+        buffer->read_pointer += buffer->token_size;
     }
-    memcpy(data, buffer->write_pointer, buffer->token_size);
     buffer->population--;
 
     return 0;
@@ -60,7 +64,7 @@ int buffer_write(buffer_struct_t *buffer, void *data)
 {
     if (buffer->population == buffer->capacity)
     {
-        printf("overflow\n");
+        printf("overflow during write\n");
         return -1;
     }
     memcpy(buffer->write_pointer, data, buffer->token_size);
@@ -79,9 +83,29 @@ int buffer_write(buffer_struct_t *buffer, void *data)
     return 0;
 }
 
-static unsigned char buff_space[BUFF_CAPACITY];
+#if 0
+void print_buff(unsigned char* buffer_space)
+{
+    for(int i=0; i<BUFF_CAPACITY; i++)
+    {
+        printf("print_buff %dth: %d", i, (int)buffer_space);
+        buffer_space++;
+    }
+}
+#else
+void print_buff(void)
+{
+    for (int i = 0; i < BUFF_CAPACITY; i++)
+    {
+        printf("-%d", buff_space[i]);
+    }
+    printf("\n");
+}
+#endif
+
 int main()
 {
+    printf("current function: %s\n", __func__);
     buffer_struct_t mybuffer;
     buffer_struct_t *mybuffer_p = &mybuffer;
     mybuffer_p = buffer_new(BUFF_CAPACITY, BUFF_TOKENSIZE, mybuffer_p, buff_space);
@@ -100,19 +124,25 @@ int main()
 #else
     int a = 1;
     int i;
-    for (i = 0; i <= 3; i++)
+    for (i = 0; i <= BUFF_CAPACITY; i++)
     {
         if (!buffer_write(mybuffer_p, &a))
+        {
             printf("%d, ", a);
+            print_buff();
+        }
         a++;
     }
 
     printf("\n");
 
-    for (i = 0; i <= 3; i++)
+    for (i = 0; i <= BUFF_CAPACITY; i++)
     {
         if (!buffer_read(mybuffer_p, &a))
+        {
             printf("%d, ", a);
+            print_buff();
+        }
     }
 #endif
 }
