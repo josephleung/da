@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define BUFF_CAPACITY 10
+#define BUFF_CAPACITY 5
 #define BUFF_TOKENSIZE 1
 
 static unsigned char buff_space[BUFF_CAPACITY];
@@ -83,16 +83,17 @@ int buffer_write(buffer_struct_t *buffer, void *data)
     return 0;
 }
 
-#if 0
-void print_buff(unsigned char* buffer_space)
+void print_buff_p(unsigned char *buffer_space)
 {
-    for(int i=0; i<BUFF_CAPACITY; i++)
+    unsigned int data;
+    for (int i = 0; i < BUFF_CAPACITY; i++)
     {
-        printf("print_buff %dth: %d", i, (int)buffer_space);
+        data = *buffer_space;
+        printf("*%d", data);
         buffer_space++;
     }
 }
-#else
+
 void print_buff(void)
 {
     for (int i = 0; i < BUFF_CAPACITY; i++)
@@ -101,7 +102,6 @@ void print_buff(void)
     }
     printf("\n");
 }
-#endif
 
 int main()
 {
@@ -128,8 +128,9 @@ int main()
     {
         if (!buffer_write(mybuffer_p, &a))
         {
-            printf("%d, ", a);
-            print_buff();
+            printf("\n%d.\n", a);
+            print_buff_p(buff_space);
+            // print_buff();
         }
         a++;
     }
@@ -140,8 +141,9 @@ int main()
     {
         if (!buffer_read(mybuffer_p, &a))
         {
-            printf("%d, ", a);
-            print_buff();
+            printf("\n%d.\n", a);
+            print_buff_p(buff_space);
+            // print_buff();
         }
     }
 #endif
