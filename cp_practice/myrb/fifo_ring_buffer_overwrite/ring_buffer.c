@@ -40,7 +40,7 @@ int buffer_read(buffer_struct_t *buffer, void *data)
 {
     if (buffer->population == 0)
     {
-        printf("underflow during read\n");
+        printf("\nunderflow during read\n");
         return -1;
     }
 
@@ -64,7 +64,7 @@ int buffer_write(buffer_struct_t *buffer, void *data)
 {
     if (buffer->population == buffer->capacity)
     {
-        printf("overflow during write\n");
+        printf("\noverflow during write\n");
         return -1;
     }
     memcpy(buffer->write_pointer, data, buffer->token_size);
@@ -135,7 +135,6 @@ int main()
         a++;
     }
 
-    printf("\n");
 
     for (i = 0; i <= BUFF_CAPACITY; i++)
     {
