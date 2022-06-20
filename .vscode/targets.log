@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Jun  3 00:45:19 2022
+# Make data base, printed on Mon Jun 20 00:43:45 2022
 
 # Variables
 
@@ -35,7 +35,7 @@ SHELL = /bin/sh
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{}}
 # environment
-_ = /home/joseph/.vscode-server/bin/da15b6fd3ef856477bf6f4fb29ba1b7af717770d/node
+_ = /home/joseph/.vscode-server/bin/c3511e6c69bb39013c4a4b7b9566ec1ca73fc4d5/node
 # makefile
 MAKEFILE_LIST := 
 # 'override' directive
@@ -47,17 +47,17 @@ VSCODE_VERBOSE_LOGGING = true
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
 # environment
-VSCODE_CWD = /mnt/c/Users/liang/AppData/Local/Programs/Microsoft VS Code
+VSCODE_CWD = /mnt/c/Users/dear_user/AppData/Local/Programs/Microsoft VS Code
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-PATH = /home/joseph/.vscode-server/bin/da15b6fd3ef856477bf6f4fb29ba1b7af717770d/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Users/liang/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/liang/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
+PATH = /home/joseph/.vscode-server/bin/c3511e6c69bb39013c4a4b7b9566ec1ca73fc4d5/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files (x86)/Common Files/Acronis/SnapAPI/:/mnt/c/Program Files (x86)/Common Files/Acronis/VirtualFile/:/mnt/c/Program Files (x86)/Common Files/Acronis/VirtualFile64/:/mnt/c/Program Files (x86)/Common Files/Acronis/FileProtector/:/mnt/c/Program Files (x86)/Common Files/Acronis/FileProtector64/:/mnt/c/Users/dear_user/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/dear_user/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
 # environment
 XDG_RUNTIME_DIR = /mnt/wslg/runtime-dir
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-b2e790a5-0332-40bf-b0b3-e081356e2fb9.sock
+VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-b2e07521-ae84-4460-9eb7-ce924424ab55.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -105,11 +105,11 @@ USER = joseph
 # makefile
 .DEFAULT_GOAL := 
 # environment
-NAME = Joseph-HP
+NAME = DESKTOP-62I2NGT
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # environment
-VSCODE_WSL_EXT_LOCATION = /mnt/c/Users/liang/.vscode/extensions/ms-vscode-remote.remote-wsl-0.66.2
+VSCODE_WSL_EXT_LOCATION = /mnt/c/Users/dear_user/.vscode/extensions/ms-vscode-remote.remote-wsl-0.66.3
 # default
 MAKE_COMMAND := make
 # default
@@ -165,7 +165,7 @@ MOTD_SHOWN = update-motd
 
 # Directories
 
-# . (device 2080, inode 42485): 10 files, no impossibilities.
+# . (device 2080, inode 43487): 10 files, no impossibilities.
 
 # 10 files, no impossibilities in 1 directories.
 
@@ -223,6 +223,6 @@ GNUmakefile:
 # strcache performance: lookups = 21 / hit rate = 14%
 # hash-table stats:
 # Load=18/8192=0%, Rehash=0, Collisions=1/21=5%
-# Finished Make data base on Fri Jun  3 00:45:19 2022
+# Finished Make data base on Mon Jun 20 00:43:45 2022
 
  
