@@ -31,10 +31,12 @@ int vertexCount = 0;
 void push(int item)
 {
     stack[++top] = item;
+    printf("push %d\n", item);
 }
 
 int pop()
 {
+    printf("pop %d\n", stack[top]);
     return stack[top--];
 }
 
@@ -62,6 +64,8 @@ void addVertex(int value)
 // add edge to edge array
 void addEdge(int start, int end)
 {
+    printf("start:%d end:%d\n", start, end);
+    printf("tot size:%d\n", (int)(sizeof(adjMatrix) / sizeof(adjMatrix[0][0])));
     adjMatrix[start][end] = 1;
     adjMatrix[end][start] = 1;
 }
@@ -130,9 +134,16 @@ int main()
 {
     int i, j;
 
-    for (i = 0; i < MAX; i++)     // set adjacency {
+    printf("start \n");
+    for (i = 0; i < MAX; i++) // set adjacency {
+    {
         for (j = 0; j < MAX; j++) // matrix to 0
+        {
+            printf("%d ", adjMatrix[i][j]);
             adjMatrix[i][j] = 0;
+        }
+        printf("\n");
+    }
 
     addVertex(0);
     addVertex(1);
