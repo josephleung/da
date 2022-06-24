@@ -45,7 +45,7 @@ int buffer_read(buffer_struct_t *buffer, void *data)
     }
 
     memcpy(data, buffer->read_pointer, buffer->token_size);
-    *(char *)buffer->read_pointer = 0;
+    // *(char *)buffer->read_pointer = 0;
 
     if (buffer->read_pointer == buffer->buffer_end)
     {

@@ -6,7 +6,7 @@
 
 struct Vertex
 {
-    char label;
+    int value;
     bool visited;
 };
 
@@ -30,13 +30,13 @@ int vertexCount = 0;
 
 // queue functions
 
-void insert(int data)
+void enqueue(int data)
 {
     queue[++rear] = data;
     queueItemCount++;
 }
 
-int removeData()
+int dequeue()
 {
     queueItemCount--;
     return queue[front++];
@@ -50,10 +50,10 @@ bool isQueueEmpty()
 // graph functions
 
 // add vertex to the vertex list
-void addVertex(char label)
+void addVertex(int value)
 {
     struct Vertex *vertex = (struct Vertex *)malloc(sizeof(struct Vertex));
-    vertex->label = label;
+    vertex->value = value;
     vertex->visited = false;
     lstVertices[vertexCount++] = vertex;
 }
@@ -68,7 +68,7 @@ void addEdge(int start, int end)
 // display the vertex
 void displayVertex(int vertexIndex)
 {
-    printf("%c ", lstVertices[vertexIndex]->label);
+    printf("%d ", lstVertices[vertexIndex]->value);
 }
 
 // get the adjacent unvisited vertex
@@ -88,6 +88,7 @@ int getAdjUnvisitedVertex(int vertexIndex)
 void breadthFirstSearch()
 {
     int i;
+    int unvisitedVertex;
 
     // mark first node as visited
     lstVertices[0]->visited = true;
@@ -96,20 +97,19 @@ void breadthFirstSearch()
     displayVertex(0);
 
     // insert vertex index in queue
-    insert(0);
-    int unvisitedVertex;
+    enqueue(0);
 
     while (!isQueueEmpty())
     {
         // get the unvisited vertex of vertex which is at front of the queue
-        int tempVertex = removeData();
+        int tempVertex = dequeue();
 
         // no adjacent vertex found
         while ((unvisitedVertex = getAdjUnvisitedVertex(tempVertex)) != -1)
         {
             lstVertices[unvisitedVertex]->visited = true;
             displayVertex(unvisitedVertex);
-            insert(unvisitedVertex);
+            enqueue(unvisitedVertex);
         }
     }
 
@@ -128,11 +128,11 @@ int main()
         for (j = 0; j < MAX; j++) // matrix to 0
             adjMatrix[i][j] = 0;
 
-    addVertex('0');
-    addVertex('1');
-    addVertex('2');
-    addVertex('3');
-    addVertex('4');
+    addVertex(0);
+    addVertex(1);
+    addVertex(2);
+    addVertex(3);
+    addVertex(4);
 
     addEdge(0, 1);
     addEdge(0, 2);
@@ -140,7 +140,7 @@ int main()
     addEdge(1, 2);
     addEdge(2, 4);
 
-    printf("\nBreadth First Search: ");
+    printf("\nBreadth First Search:");
 
     breadthFirstSearch();
 
