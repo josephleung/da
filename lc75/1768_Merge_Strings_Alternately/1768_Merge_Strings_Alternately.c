@@ -2,20 +2,23 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-char * mergeAlternately(char * word1, char * word2){
+#define MAX_STR_LEN 10
+
+char *mergeAlternately(char *word1, char *word2)
+{
     int len1 = strlen(word1);
     int len2 = strlen(word2);
     int len_merged = len1 + len2;
-    char* merged = (char*) malloc(len_merged + 1);
+    char *merged = (char *)malloc(len_merged + 1);
     int i = 0, j = 0, k = 0;
 
-    while(i < len1 || j < len2)
+    while (i < len1 || j < len2)
     {
-        if(i < len1)
+        if (i < len1)
         {
             merged[k++] = word1[i++];
         }
-        if(j < len2)
+        if (j < len2)
         {
             merged[k++] = word2[j++];
         }
@@ -23,13 +26,15 @@ char * mergeAlternately(char * word1, char * word2){
 
     merged[k] = '\0';
 
+    printf("*strlen(word1) = %d, strlen(word2)= %d\n", strlen(word1), strlen(word2));
+
     return merged;
 }
 
 char *my_strcpy(char *dest_str, char *src_str)
 {
-    char* dest_start = dest_str;
-    while(*src_str != '\0')
+    char *dest_start = dest_str;
+    while (*src_str != '\0')
     {
         *dest_str = *src_str;
         dest_str++;
@@ -37,10 +42,10 @@ char *my_strcpy(char *dest_str, char *src_str)
     }
     *dest_str = '\0';
 
-    printf("\n dest_str %p, %p, *dest_str 0x%x \n", (void*)dest_str, (void*)dest_str, (unsigned int)*dest_str);
+    printf("\n dest_str %p, %p, *dest_str 0x%x \n", (void *)dest_str, (void *)dest_str, (unsigned int)*dest_str);
 
-    char* temp = dest_start;
-    for(int i=0; i < 10; i++, temp++)
+    char *temp = dest_start;
+    for (int i = 0; i < 10; i++, temp++)
         printf("*dest_str 0x%x, %c \n", (unsigned int)*temp, *temp);
 
     return dest_start;
@@ -48,9 +53,9 @@ char *my_strcpy(char *dest_str, char *src_str)
 
 int main()
 {
-    char word1[10] = "abc";
-    char word2[10] = "pqr";
-    char* merged = mergeAlternately(word1, word2);
+    char word1[MAX_STR_LEN] = "abc";
+    char word2[MAX_STR_LEN] = "pqr";
+    char *merged = mergeAlternately(word1, word2);
     printf("Merged string: %s\n", merged);
 
     my_strcpy(word1, "ab");
@@ -71,5 +76,4 @@ int main()
     free(merged);
 
     return 0;
-
 }
