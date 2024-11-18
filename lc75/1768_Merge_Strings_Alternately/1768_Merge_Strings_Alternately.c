@@ -28,22 +28,22 @@ char * mergeAlternately(char * word1, char * word2){
 
 int main()
 {
-    char word1_0[10] = "abc";
-    char word2_0[10] = "pqr";
-    char* merged = mergeAlternately(word1_0, word2_0);
+    char word1[10] = "abc";
+    char word2[10] = "pqr";
+    char* merged = mergeAlternately(word1, word2);
     printf("Merged string: %s\n", merged);
 
-
-    char word1_1[] = "ab";
-    char word2_1[] = "pqrs";
-    merged = mergeAlternately(word1_1, word2_1);
+    strcpy(word1, "ab");
+    strcpy(word2, "pqrs");
+    merged = mergeAlternately(word1, word2);
     printf("Merged string: %s\n", merged);
 
-
-    strcpy(word1_0, "abcd");
-    strcpy(word2_0, "pq");
-    merged = mergeAlternately(word1_0, word2_0);
+    strcpy(word1, "abcd");
+    strcpy(word2, "pq");
+    merged = mergeAlternately(word1, word2);
     printf("Merged string: %s\n", merged);
+
+    free(merged);
 
     return 0;
 
