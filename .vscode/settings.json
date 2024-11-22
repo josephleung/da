@@ -3,6 +3,7 @@
         "stdio.h": "c",
         "3_39.h": "c",
         "stdbool.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "stdlib.h": "c"
     }
 }

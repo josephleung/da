@@ -13,7 +13,7 @@ int is_vowel(char c)
         return false;
 }
 
-#if 1
+#if 0
 char *reverseVowels(char *s)
 {
     unsigned int str_len = strlen(s);
