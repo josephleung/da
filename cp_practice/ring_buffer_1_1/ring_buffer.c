@@ -19,8 +19,13 @@ typedef struct buffer
     int size;
 } buffer_t;
 
-void init_buffer(buffer_t *buff)
+void init_buffer(buffer_t *buff, int clear_buffer)
 {
+    if(clear_buffer)
+    {
+        memset(buff->buffer, 0, sizeof(buff->buffer));
+    }
+
     buff->head = 0;
     buff->tail = 0;
     buff->size = 0;
@@ -69,7 +74,7 @@ int main()
 {
     buffer_t buffer;
     buffer_t *p_buffer = &buffer;
-    init_buffer(p_buffer);
+    init_buffer(p_buffer, 0);
 
     int temp;
     temp = 1;
