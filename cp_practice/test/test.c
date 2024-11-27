@@ -1,118 +1,88 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
-#define BUFF_CAPACITY 3
-#define BUFF_TOKENSIZE 1
+#define BUFFER_SIZE 5
 
-typedef struct buffer_struct
+typedef struct buffer
 {
-    int capacity;
-    void *buffer_start;
-    void *buffer_end;
-    int population;
-    void *read_pointer;
-    void *write_pointer;
-    int token_size;
-} buffer_struct_t;
+    int buffer[BUFFER_SIZE];
+    int head;
+    int tail;
+    int size;
+} buffer_t;
 
-void buffer_reset(buffer_struct_t *buffer)
+void init_buffer(buffer_t *buff)
 {
-    buffer->write_pointer = buffer->buffer_start;
-    buffer->read_pointer = buffer->buffer_start;
-    buffer->population = 0;
+    buff->head = 0;
+    buff->tail = 0;
+    buff->size = 0;
 }
 
-buffer_struct_t *buffer_new(int capacity, int token_size, void *buffer_pointer, void *buffer_space)
+int is_full(buffer_t *buff)
 {
-    buffer_struct_t *buffer = buffer_pointer;
-    buffer->capacity = capacity;
-    buffer->token_size = token_size;
-    buffer->buffer_start = buffer_space;
-    buffer->buffer_end = buffer->buffer_start + capacity * token_size;
-    buffer_reset(buffer);
-    return buffer;
+    return buff->size == BUFFER_SIZE;
 }
 
-int buffer_read(buffer_struct_t *buffer, void *data)
+int is_empty(buffer_t *buff)
 {
-    if (buffer->population == 0)
+    return buff->size == 0;
+}
+
+int enqueue(buffer_t *buff, int *p_val)
+{
+    if(is_full(buff))
     {
-        printf("underflow\n");
+        printf("Buffer is full\n");
         return -1;
     }
 
-    if (buffer->write_pointer == buffer->buffer_start)
+    buff->buffer[buff->tail] = *p_val;
+    buff->tail = (buff->tail + 1) % BUFFER_SIZE;
+    buff->size++;
+    return 0;
+}
+
+int dequeue(buffer_t *buff, int *p_val)
+{
+    if(is_empty(buff))
     {
-        buffer->write_pointer = buffer->buffer_end;
+        printf("Buffer is empty\n");
+        return -1;
     }
-    else
-    {
-        buffer->write_pointer = buffer->write_pointer - buffer->token_size;
-    }
-    memcpy(data, buffer->write_pointer, buffer->token_size);
-    buffer->population--;
+
+    *p_val = buff->buffer[buff->head];
+    buff->head = (buff->head + 1) % BUFFER_SIZE;
+    buff->size--;
 
     return 0;
 }
 
-int buffer_write(buffer_struct_t *buffer, void *data)
-{
-    if (buffer->population == buffer->capacity)
-    {
-        printf("overflow\n");
-        return -1;
-    }
-    memcpy(buffer->write_pointer, data, buffer->token_size);
-
-    if (buffer->write_pointer == buffer->buffer_end)
-    {
-        buffer->write_pointer = buffer->buffer_start;
-    }
-    else
-    {
-        buffer->write_pointer += buffer->token_size;
-    }
-
-    buffer->population++;
-
-    return 0;
-}
-
-static unsigned char buff_space[BUFF_CAPACITY];
 int main()
 {
-    buffer_struct_t mybuffer;
-    buffer_struct_t *mybuffer_p = &mybuffer;
-    mybuffer_p = buffer_new(BUFF_CAPACITY, BUFF_TOKENSIZE, mybuffer_p, buff_space);
+    buffer_t buffer;
+    buffer_t *p_buffer = &buffer;
+    init_buffer(p_buffer);
 
-#if 0
-    int a = 1;
-    int i = 0;
+    int temp;
+    temp = 1;
+    enqueue(p_buffer, &temp);
+    temp = 2;
+    enqueue(p_buffer, &temp);
+    temp = 3;
+    enqueue(p_buffer, &temp);
 
-    buffer_write(mybuffer, &a);
-    printf("%dth: %d, ", i, a);
+    dequeue(p_buffer, &temp);
+    printf("Dequeued: %d\n", temp);
+    dequeue(p_buffer, &temp);
+    printf("Dequeued: %d\n", temp);
 
-    printf("\n");
 
-    buffer_read(mybuffer, &a);
-    printf("%dth: %d, ", i, a);
-#else
-    int a = 1;
-    int i;
-    for (i = 0; i <= 3; i++)
+    while (!is_empty(p_buffer))
     {
-        if (!buffer_write(mybuffer_p, &a))
-            printf("%d, ", a);
-        a++;
+        dequeue(p_buffer, &temp);
+        printf("Dequeued: %d\n", temp);
     }
 
-    printf("\n");
-
-    for (i = 0; i <= 3; i++)
-    {
-        if (!buffer_read(mybuffer_p, &a))
-            printf("%d, ", a);
-    }
-#endif
+    return 0;
 }
