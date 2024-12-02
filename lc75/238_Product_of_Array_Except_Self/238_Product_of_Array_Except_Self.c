@@ -50,3 +50,4 @@ int main()
     free(returnArray);
     return 0;
 }
+
