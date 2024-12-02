@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#if 1
 void productExceptSelf(int *nums, int numsSize, int *returnSize, int **returnArray)
 {
     *returnSize = numsSize;
@@ -31,6 +32,35 @@ void productExceptSelf(int *nums, int numsSize, int *returnSize, int **returnArr
     free(leftProducts);
     free(rightProducts);
 }
+
+#else
+void productExceptSelf(int *nums, int numsSize, int *returnSize, int **returnArray)
+{
+    int i = 0;
+    int prefix;
+    int postfix;
+
+    *returnSize = numsSize;
+    *returnArray = (int *)malloc(numsSize * sizeof(int));
+
+    memset(*returnArray, 1, *returnSize);
+
+    prefix = 1;
+    for(i = 0; i < numsSize; i++)
+    {
+        (*returnArray)[i] = prefix;
+        prefix *= nums[i];
+    }
+
+    postfix = 1;
+    for(i = numsSize - 1; i >= 0; i--)
+    {
+        (*returnArray)[i] *= postfix;
+        postfix *= nums[i];
+    }
+
+}
+#endif
 
 int main()
 {
