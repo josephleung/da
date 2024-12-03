@@ -13,7 +13,7 @@ enum ret_val
 
 typedef struct buffer
 {
-    int buffer[BUFFER_SIZE];
+    int *buf;
     int head;
     int tail;
     int size;
@@ -23,7 +23,7 @@ void init_buffer(buffer_t *buff, int clear_buffer)
 {
     if(clear_buffer)
     {
-        memset(buff->buffer, 0, BUFFER_SIZE * sizeof(int));
+        memset(buff->buf, 0, BUFFER_SIZE * sizeof(int));
     }
 
     buff->head = 0;
@@ -49,7 +49,7 @@ int enqueue(buffer_t *buff, int *p_val)
         return ERR_OVERFLOW;
     }
 
-    buff->buffer[buff->tail] = *p_val;
+    buff->buf[buff->tail] = *p_val;
     buff->tail = (buff->tail + 1) % BUFFER_SIZE;
     buff->size++;
     
@@ -64,7 +64,7 @@ int dequeue(buffer_t *buff, int *p_val)
         return ERR_UNDERFLOW;
     }
 
-    *p_val = buff->buffer[buff->head];
+    *p_val = buff->buf[buff->head];
     buff->head = (buff->head + 1) % BUFFER_SIZE;
     buff->size--;
 
@@ -73,8 +73,10 @@ int dequeue(buffer_t *buff, int *p_val)
 
 int main()
 {
+    int buffer_array[BUFFER_SIZE];
     buffer_t buffer;
     buffer_t *p_buffer = &buffer;
+    p_buffer->buf = buffer_array;
     init_buffer(p_buffer, 0);
 
     int temp;
@@ -96,6 +98,10 @@ int main()
         dequeue(p_buffer, &temp);
         printf("Dequeued: %d\n", temp);
     }
+
+    printf("buff0: %d\n", p_buffer->buf[0]);
+    init_buffer(p_buffer, 1);
+    printf("buff0: %d\n", p_buffer->buf[0]);
 
     return 0;
 }
