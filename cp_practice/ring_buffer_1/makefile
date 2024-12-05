@@ -1,5 +1,6 @@
 # Define the compiler and the flags
-CC = gcc
+# CC = gcc
+CC = gcc -m32
 CFLAGS = -Wall -g
 
 # Define the target executable

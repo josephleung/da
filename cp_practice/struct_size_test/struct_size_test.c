@@ -5,12 +5,12 @@
 
 typedef struct free_block
 {
-    // char index;
-    // char marker_0;
+    char index;
+    char marker_0;
     int a;
     int *b;
-    // char *data;
-    // char marker_1;
+    char *data;
+    char marker_1;
     // struct free_block *next;
     // char marker_2;
 } free_block_t;
