@@ -4,11 +4,11 @@
 #include <stdint.h>
 
 #define BUFFER_SIZE 128
-#define BLOCK_PAYLOAD_SIZE 1
+#define BLOCK_PAYLOAD_SIZE 3
 
 unsigned char buffer[BUFFER_SIZE];
 
-#pragma pack(1)
+// #pragma pack(1)
 typedef struct free_block
 {
     unsigned int index;
@@ -18,7 +18,7 @@ typedef struct free_block
     struct free_block *next;
     unsigned int marker_2;
 } free_block_t;
-#pragma pack()
+// #pragma pack()
 
 void block_init(void *buffer_location)
 {
@@ -34,9 +34,9 @@ void block_init(void *buffer_location)
     {
         block->index = i;
         block->marker_0 = 0x11111111;
-        block->data = (char *)block + sizeof(free_block_t);
+        block->data = (void *)block + sizeof(free_block_t);
         block->marker_1 = 0x22222222;
-        block->next = (free_block_t *)((char *)block + BLOCK_PAYLOAD_SIZE + sizeof(free_block_t));
+        block->next = (free_block_t *)((void *)block + BLOCK_PAYLOAD_SIZE + sizeof(free_block_t));
         block->marker_2 = 0x33333333;
 
         printf("Block index: %d, Block location: %p, Block data location: %p, Block next location: %p\n", block->index, block, block->data, block->next);
@@ -78,7 +78,6 @@ void test_write_blocks(void)
         block = block->next;
         i++;
     }
-
     printf("  end test_write_blocks\n");
 }
 

@@ -2,28 +2,67 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define BLOCK_SIZE 1024
+#define NUM_BLOCKS 100
 
-typedef struct free_block
-{
-    // char index;
-    // char marker_0;
-    int a;
-    int *b;
-    // char *data;
-    // char marker_1;
-    // struct free_block *next;
-    // char marker_2;
-} free_block_t;
+typedef struct Block {
+    struct Block *next;
+    char data[BLOCK_SIZE];
+} Block;
 
-int main()
-{
-    int a = 3;
-    int *p_a = &a;
+typedef struct BlockAllocator {
+    Block *free_list;
+    Block blocks[NUM_BLOCKS];
+} BlockAllocator;
 
-    printf("a:%d, p_a:%x\n", a, p_a);
-    printf("&a:%x, *p_a:%d\n", &a, *p_a);
+void init_allocator(BlockAllocator *allocator) {
+    allocator->free_list = NULL;
+    for (int i = 0; i < NUM_BLOCKS; i++) {
+        allocator->blocks[i].next = allocator->free_list;
+        allocator->free_list = &allocator->blocks[i];
+    }
+}
 
-    printf("sizeof(free_block_t):%d\n", (int)sizeof(free_block_t));
+void *alloc(BlockAllocator *allocator) {
+    if (allocator->free_list == NULL) {
+        return NULL; // No free blocks available
+    }
+    Block *block = allocator->free_list;
+    allocator->free_list = block->next;
+    return block->data;
+}
+
+size_t my_offsetof(size_t member_offset) {
+    return member_offset;
+}
+
+void free_block(BlockAllocator *allocator, void *ptr) {
+    Block *block = (Block *)((char *)ptr - my_offsetof((size_t)&((Block *)0)->data));
+    block->next = allocator->free_list;
+    allocator->free_list = block;
+}
+
+int main() {
+    BlockAllocator allocator;
+    init_allocator(&allocator);
+
+    void *block1 = alloc(&allocator);
+    if (block1 != NULL) {
+        printf("Block1 allocated\n");
+    }
+
+    void *block2 = alloc(&allocator);
+    if (block2 != NULL) {
+        printf("Block2 allocated\n");
+    }
+
+    free_block(&allocator, block1);
+    printf("Block1 freed\n");
+
+    void *block3 = alloc(&allocator);
+    if (block3 != NULL) {
+        printf("Block3 allocated\n");
+    }
 
     return 0;
 }
