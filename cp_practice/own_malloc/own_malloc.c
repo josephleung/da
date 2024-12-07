@@ -8,6 +8,7 @@
 
 unsigned char buffer[BUFFER_SIZE];
 
+#pragma pack(1)
 typedef struct free_block
 {
     unsigned int index;
@@ -17,6 +18,7 @@ typedef struct free_block
     struct free_block *next;
     unsigned int marker_2;
 } free_block_t;
+#pragma pack()
 
 void block_init(void *buffer_location)
 {
@@ -54,13 +56,13 @@ void print_blocks(void)
 {
     free_block_t *block = (free_block_t *)buffer;
 
-    printf("\n  start print_blocks\n"); 
+    printf("\n  start print_blocks\n");
     while (block != NULL)
     {
         printf("Block index: %d, data:%x\n", block->index, *block->data);
         block = block->next;
     }
-    printf("\n  end print_blocks\n"); 
+    printf("\n  end print_blocks\n");
 }
 
 void test_write_blocks(void)
@@ -68,7 +70,7 @@ void test_write_blocks(void)
     free_block_t *block = (free_block_t *)buffer;
     int i = 0;
 
-    printf("\n  start test_write_blocks\n"); 
+    printf("\n  start test_write_blocks\n");
     while (block != NULL)
     {
         printf("     Block index: %d, write:%d\n", block->index, i);
@@ -77,7 +79,7 @@ void test_write_blocks(void)
         i++;
     }
 
-    printf("  end test_write_blocks\n"); 
+    printf("  end test_write_blocks\n");
 }
 
 void dump_buffer()
@@ -93,11 +95,9 @@ void dump_buffer()
         {
             printf("\n");
         }
-
     }
     printf("\n\n");
 }
-
 
 // void *own_malloc(void)
 // {
@@ -119,6 +119,7 @@ int main()
     dump_buffer();
 
     printf("sizeof buffer: %d\n", (int)sizeof(buffer));
+    printf("sizeof free_block_t: %d\n", (int)sizeof(free_block_t));
 
     return 0;
 }
