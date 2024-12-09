@@ -98,6 +98,13 @@ void print_blocks(void)
     printf("+++End of %s\n", __func__);
 }
 
+void put_to_tail(data_block_t *block)
+{
+    block_manager.tail->next = block;
+    block_manager.tail = block;
+    block_manager.tail->next = NULL;
+}
+
 unsigned int block_write(char *data)
 {
     data_block_t *block = (data_block_t *)buffer;
@@ -110,6 +117,7 @@ unsigned int block_write(char *data)
             memcpy(block->data, data, BLOCK_PAYLOAD_SIZE);
             block->is_free = false;
             printf("     Block index: %d, write:0x%x\n", block->index, *block->data);
+            
             printf("+++End of %s\n", __func__);
             return SUCCESS;
         }
