@@ -13,10 +13,10 @@ enum ret_val
 
 typedef struct buffer
 {
-    int *buf;
     int head;
     int tail;
     int size;
+    int *buf;
 } buffer_t;
 
 void init_buffer(buffer_t *buff, int clear_buffer)
