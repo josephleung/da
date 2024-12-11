@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define BUFFER_SIZE 5
+#define BUFFER_SIZE 3
 
 enum ret_val
 {
@@ -81,23 +81,26 @@ int main()
 
     int temp;
     temp = 1;
-    enqueue(p_buffer, &temp);
+    if(enqueue(p_buffer, &temp) == SUCCESS)
+        printf("Enqueued: %d\n", temp);
     temp = 2;
-    enqueue(p_buffer, &temp);
+    if(enqueue(p_buffer, &temp) == SUCCESS)
+        printf("Enqueued: %d\n", temp);
     temp = 3;
-    enqueue(p_buffer, &temp);
+    if(enqueue(p_buffer, &temp) == SUCCESS)
+        printf("Enqueued: %d\n", temp);
+    temp = 4;
+    if(enqueue(p_buffer, &temp) == SUCCESS)
+        printf("Enqueued: %d\n", temp);
 
-    dequeue(p_buffer, &temp);
-    printf("Dequeued: %d\n", temp);
-    dequeue(p_buffer, &temp);
-    printf("Dequeued: %d\n", temp);
-
-
-    while (!is_empty(p_buffer))
-    {
-        dequeue(p_buffer, &temp);
+    if(dequeue(p_buffer, &temp) == SUCCESS)
         printf("Dequeued: %d\n", temp);
-    }
+    if(dequeue(p_buffer, &temp) == SUCCESS)
+        printf("Dequeued: %d\n", temp);
+    if(dequeue(p_buffer, &temp) == SUCCESS)
+        printf("Dequeued: %d\n", temp);
+    if(dequeue(p_buffer, &temp) == SUCCESS)
+        printf("Dequeued: %d\n", temp);
 
     printf("buff0: %d\n", p_buffer->buf[0]);
     init_buffer(p_buffer, 1);
