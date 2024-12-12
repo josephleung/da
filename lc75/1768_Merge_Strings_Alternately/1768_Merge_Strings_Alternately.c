@@ -36,9 +36,7 @@ char *my_strcpy(char *dest_str, char *src_str)
     char *dest_start = dest_str;
     while (*src_str != '\0')
     {
-        *dest_str = *src_str;
-        dest_str++;
-        src_str++;
+        *dest_str++ = *src_str++;
     }
     *dest_str = '\0';
 

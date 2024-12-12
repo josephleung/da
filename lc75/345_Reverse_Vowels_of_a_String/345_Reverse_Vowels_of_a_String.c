@@ -5,12 +5,19 @@
 
 int is_vowel(char c)
 {
-    if (c == 'a' || c == 'A' || c == 'e' || c == 'E' || //
-        c == 'i' || c == 'I' || c == 'o' || c == 'O' || //
+    if (c == 'a' || c == 'A' || c == 'e' || c == 'E' ||
+        c == 'i' || c == 'I' || c == 'o' || c == 'O' ||
         c == 'u' || c == 'U')
         return true;
     else
         return false;
+}
+
+void swap(char *a, char *b)
+{
+    char temp = *a;
+    *a = *b;
+    *b = temp;
 }
 
 #if 0
@@ -67,9 +74,7 @@ char *reverseVowels(char *s)
         //swap the vowel
         if(left < right)
         {
-            char temp = s[left];
-            s[left] = s[right];
-            s[right] = temp;
+            swap(&s[left], &s[right]);
             left++;
             right--;
         }
