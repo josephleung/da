@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 // Function to find the GCD of two numbers
-#if 0
+#if 1
 int gcd(int a, int b)
 {
     // Find Minimum of a and b
@@ -38,8 +38,12 @@ int canForm(char *str, char *sub)
 {
     int lenStr = strlen(str);
     int lenSub = strlen(sub);
+    printf("Function: %s\n", __func__);
+    printf("str: %s, sub: %s\n", str, sub);
+
     for (int i = 0; i < lenStr; i += lenSub)
     {
+        printf("canForm, i = %d\n", i);
         if (strncmp(str + i, sub, lenSub) != 0)
         {
             return 0;
@@ -61,6 +65,7 @@ char *gcdOfStrings(char *str1, char *str2)
     char *candidate = (char *)malloc((gcdLen + 1) * sizeof(char));
     strncpy(candidate, str1, gcdLen);
     candidate[gcdLen] = '\0';
+    printf("candidate %s\n", candidate);
 
     // Check if candidate can form both str1 and str2
     if (canForm(str1, candidate) && canForm(str2, candidate))
