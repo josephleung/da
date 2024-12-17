@@ -77,6 +77,7 @@ void deleteNode(struct Node **head, int key)
         return;
     prev->next = temp->next;
     free(temp);
+    temp = NULL;
 }
 
 // Function to reverse the linked list

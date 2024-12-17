@@ -3,6 +3,24 @@
 #include <stdlib.h>
 
 // Function to find the GCD of two numbers
+#if 0
+int gcd(int a, int b)
+{
+    // Find Minimum of a and b
+    int result = ((a < b) ? a : b);
+    while (result > 0)
+    {
+        // Check if both a and b are divisible by result
+        if (a % result == 0 && b % result == 0)
+        {
+            break;
+        }
+        result--;
+    }
+    // return gcd of a nd b
+    return result;
+}
+#else
 int gcd(int a, int b)
 {
     while (b != 0)
@@ -13,6 +31,22 @@ int gcd(int a, int b)
     }
     return a;
 }
+#endif
+
+// Helper function to check if str can be formed by repeating sub
+int canForm(char *str, char *sub)
+{
+    int lenStr = strlen(str);
+    int lenSub = strlen(sub);
+    for (int i = 0; i < lenStr; i += lenSub)
+    {
+        if (strncmp(str + i, sub, lenSub) != 0)
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
 
 // Function to find the GCD string
 char *gcdOfStrings(char *str1, char *str2)
@@ -21,25 +55,12 @@ char *gcdOfStrings(char *str1, char *str2)
     int len2 = strlen(str2);
     int gcdLen = gcd(len1, len2);
 
+    printf("gcdLen %d\n", gcdLen);
+
     // Create a candidate GCD string from str1
     char *candidate = (char *)malloc((gcdLen + 1) * sizeof(char));
     strncpy(candidate, str1, gcdLen);
     candidate[gcdLen] = '\0';
-
-    // Helper function to check if str can be formed by repeating sub
-    int canForm(char *str, char *sub)
-    {
-        int lenStr = strlen(str);
-        int lenSub = strlen(sub);
-        for (int i = 0; i < lenStr; i += lenSub)
-        {
-            if (strncmp(str + i, sub, lenSub) != 0)
-            {
-                return 0;
-            }
-        }
-        return 1;
-    }
 
     // Check if candidate can form both str1 and str2
     if (canForm(str1, candidate) && canForm(str2, candidate))
@@ -55,8 +76,8 @@ char *gcdOfStrings(char *str1, char *str2)
 
 int main()
 {
-    char str1[] = "ABCABC";
-    char str2[] = "ABC";
+    char str1[] = "ABCABCABC";
+    char str2[] = "ABCABC";
 
     char *result = gcdOfStrings(str1, str2);
     printf("GCD of strings: %s\n", result);
