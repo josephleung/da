@@ -5,6 +5,13 @@
 #define BUFF_CAPACITY 5
 #define BUFF_TOKENSIZE 1
 
+enum RET_STATUS
+{
+    SUCCESS = 0,
+    ERR_OVERFLOW = 1,
+    ERR_UNDERFLOW = 2,
+};
+
 static unsigned char buff_space[BUFF_CAPACITY];
 
 typedef struct buffer_struct
@@ -41,7 +48,7 @@ int buffer_read(buffer_struct_t *buffer, void *data)
     if (buffer->population == 0)
     {
         printf("\nunderflow during read\n");
-        return -1;
+        return ERR_UNDERFLOW;
     }
 
     memcpy(data, buffer->read_pointer, buffer->token_size);
@@ -57,7 +64,7 @@ int buffer_read(buffer_struct_t *buffer, void *data)
     }
     buffer->population--;
 
-    return 0;
+    return SUCCESS;
 }
 
 int buffer_write(buffer_struct_t *buffer, void *data)
@@ -65,7 +72,7 @@ int buffer_write(buffer_struct_t *buffer, void *data)
     if (buffer->population == buffer->capacity)
     {
         printf("\noverflow during write\n");
-        return -1;
+        return ERR_OVERFLOW;
     }
     memcpy(buffer->write_pointer, data, buffer->token_size);
 
@@ -80,7 +87,7 @@ int buffer_write(buffer_struct_t *buffer, void *data)
 
     buffer->population++;
 
-    return 0;
+    return SUCCESS;
 }
 
 void print_buff_p(unsigned char *buffer_space)
@@ -132,7 +139,6 @@ int main()
         }
         a++;
     }
-
 
     for (i = 0; i <= BUFF_CAPACITY; i++)
     {
