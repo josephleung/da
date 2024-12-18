@@ -33,6 +33,25 @@ int gcd(int a, int b)
 }
 #endif
 
+// Function to compare two strings up to n characters
+int my_strncmp(const char *s1, const char *s2, size_t n)
+{
+    while (n && *s1 && (*s1 == *s2))
+    {
+        s1++;
+        s2++;
+        n--;
+    }
+    if (n == 0)
+    {
+        return 0;
+    }
+    else
+    {
+        return (*(unsigned char *)s1 - *(unsigned char *)s2);
+    }
+}
+
 // Helper function to check if str can be formed by repeating sub
 int canForm(char *str, char *sub)
 {
@@ -44,7 +63,7 @@ int canForm(char *str, char *sub)
     for (int i = 0; i < lenStr; i += lenSub)
     {
         printf("canForm, i = %d\n", i);
-        if (strncmp(str + i, sub, lenSub) != 0)
+        if (my_strncmp(str + i, sub, lenSub) != 0)
         {
             return 0;
         }
