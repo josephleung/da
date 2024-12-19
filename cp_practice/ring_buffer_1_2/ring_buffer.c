@@ -8,7 +8,8 @@ enum ret_val
 {
     SUCCESS,
     ERR_OVERFLOW,
-    ERR_UNDERFLOW
+    ERR_UNDERFLOW,
+    ERR_INVALID_PARAM
 };
 
 typedef struct buffer
@@ -21,7 +22,13 @@ typedef struct buffer
 
 void init_buffer(buffer_t *buff, int clear_buffer)
 {
-    if(clear_buffer)
+    if(buff == NULL)
+    {
+        printf("Invalid buffer\n");
+        return ERR_INVALID_PARAM;
+    }
+
+    if(clear_buffer == 1)
     {
         memset(buff->buf, 0, BUFFER_SIZE * sizeof(int));
     }
@@ -33,16 +40,39 @@ void init_buffer(buffer_t *buff, int clear_buffer)
 
 int is_full(buffer_t *buff)
 {
+    if(buff == NULL)
+    {
+        printf("Invalid buffer\n");
+        return ERR_INVALID_PARAM;
+    }
+
     return buff->size == BUFFER_SIZE;
 }
 
 int is_empty(buffer_t *buff)
 {
+    if(buff == NULL)
+    {
+        printf("Invalid buffer\n");
+        return ERR_INVALID_PARAM;
+    }
+
     return buff->size == 0;
 }
 
 int enqueue(buffer_t *buff, int *p_val)
 {
+    if(buff == NULL)
+    {
+        printf("Invalid buffer\n");
+        return ERR_INVALID_PARAM;
+    }
+    if(p_val == NULL)
+    {
+        printf("Invalid value\n");
+        return ERR_INVALID_PARAM;
+    }
+
     if(is_full(buff))
     {
         printf("Buffer is full\n");
@@ -58,6 +88,18 @@ int enqueue(buffer_t *buff, int *p_val)
 
 int dequeue(buffer_t *buff, int *p_val)
 {
+    if(buff == NULL)
+    {
+        printf("Invalid buffer\n");
+        return ERR_INVALID_PARAM;
+    }
+    
+    if(p_val == NULL)
+    {
+        printf("Invalid value\n");
+        return ERR_INVALID_PARAM;
+    }
+
     if(is_empty(buff))
     {
         printf("Buffer is empty\n");
