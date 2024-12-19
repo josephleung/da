@@ -4,6 +4,8 @@
         "3_39.h": "c",
         "stdbool.h": "c",
         "string.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "cstdint": "cpp",
+        "stddef.h": "c"
     }
 }
