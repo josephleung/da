@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#if 0
 // Function to reverse a portion of the string
 void reverse(char *begin, char *end)
 {
@@ -125,6 +126,77 @@ void reverseWords(char *s)
         printf("end dst: \"%s\", \t\t s: \"%s\"\n\n", dst, s);
     }
     *dst = '\0';
+}
+#endif
+#else
+void reverse(char *begin, char *end)
+{
+    char temp;
+    while (begin < end)
+    {
+        temp = *begin;
+        *begin++ = *end;
+        *end-- = temp;
+    }
+}
+
+char *reverseWords(char *s)
+{
+    char *start = s;
+    char *end = s + strlen(s) - 1;
+
+    // Remove leading and trailing spaces
+    while (*start == ' ')
+    {
+        start++;
+    }
+    while (end > start && *end == ' ')
+    {
+        end--;
+    }
+    end++;
+
+    // Reverse the entire string
+    char *p = start;
+    while (p < end)
+    {
+        p++;
+    }
+    reverse(start, p - 1);
+
+    // Reverse each word in the string
+    char *word_begin = NULL;
+    char *word_end = NULL;
+    p = start;
+    while (p < end)
+    {
+        if (word_begin == NULL && *p != ' ')
+        {
+            word_begin = p;
+        }
+        if (word_begin != NULL && (*(p + 1) == ' ' || *(p + 1) == '\0'))
+        {
+            word_end = p;
+            reverse(word_begin, word_end);
+            word_begin = NULL;
+        }
+        p++;
+    }
+
+    // Remove extra spaces between words
+    char *dest = start;
+    p = start;
+    while (p < end)
+    {
+        if (*p != ' ' || (*(p + 1) != ' ' && *(p + 1) != '\0'))
+        {
+            *dest++ = *p;
+        }
+        p++;
+    }
+    *dest = '\0';
+
+    return start;
 }
 #endif
 
