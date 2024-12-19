@@ -20,7 +20,7 @@ typedef struct buffer
     int *buf;
 } buffer_t;
 
-void init_buffer(buffer_t *buff, int clear_buffer)
+int init_buffer(buffer_t *buff, int clear_buffer)
 {
     if(buff == NULL)
     {
@@ -36,6 +36,8 @@ void init_buffer(buffer_t *buff, int clear_buffer)
     buff->head = 0;
     buff->tail = 0;
     buff->size = 0;
+
+    return SUCCESS;
 }
 
 int is_full(buffer_t *buff)
@@ -93,7 +95,7 @@ int dequeue(buffer_t *buff, int *p_val)
         printf("Invalid buffer\n");
         return ERR_INVALID_PARAM;
     }
-    
+
     if(p_val == NULL)
     {
         printf("Invalid value\n");
